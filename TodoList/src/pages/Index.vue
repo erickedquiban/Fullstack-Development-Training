@@ -35,8 +35,6 @@
         </q-item-section>
       </q-item>
     </q-list>
-
-    <q-btn label="Confirm" color="primary" @click="confirm" />
     <div v-if="existingToDo == 0">
       <p>No Data found</p>
     </div>
@@ -47,9 +45,9 @@
 export default {
   name: "app",
 
-framework: {
-  plugins: ['Dialog']
-},
+  framework: {
+    plugins: ["Dialog"]
+  },
 
   data() {
     return {
@@ -73,40 +71,21 @@ framework: {
 
   methods: {
     add() {
-      if (this.todo == 0) {
-        alert("Please Fill up the input box");
-      } else {
+     if (confirm('Are you sure you want to add this item?')) {
         this.existingToDo.push(this.todo), (this.todo = "");
-        console.log(this.existingToDo);
       }
     },
 
     deleteToDo(index) {
-      this.existingToDo.splice(index, 1);
-      alert("Are you sure you want to delete the item?");
+      if (confirm("Are you sure you want to delete the item?")) {
+        this.existingToDo.splice(index, 1);
+      }
     },
 
     editTodo(index, todo) {
       this.todo = todo;
       this.selectedIndex = index;
       this.isEditing = true;
-    },
-    confirm () {
-      this.$q.dialog({
-        dark: true,
-        title: 'Confirm',
-        message: 'Would you like to turn on the wifi?',
-        cancel: true,
-        persistent: true
-      }).onOk(() => {
-        console.log('>>>> OK')
-      }).onOk(() => {
-        // console.log('>>>> second OK catcher')
-      }).onCancel(() => {
-        // console.log('>>>> Cancel')
-      }).onDismiss(() => {
-        // console.log('I am triggered on both OK and Cancel')
-      })
     },
 
     updateToDo() {
