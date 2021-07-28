@@ -1,9 +1,10 @@
 <template>
   <div>
-    <div :class="[task.reminder ? 'reminder' : '', 'task']">
+    <div  v-on:click="$emit('toggle-reminder', task.id)" 
+    :class="[task.reminder ? 'reminder' : '', 'task']">
       <h3>
         {{ task.text }}
-        <q-icon @click="onDelete(task.id)" name="close" />
+        <q-icon @click="$emit('delete-task', task.id)" name="close" />
       </h3>
 
       <p>{{ task.day }}</p>
@@ -16,14 +17,6 @@ export default {
   name: "Task",
   props: {
     task: Object
-  },
-  methods: {
-      onDelete(id){
-        //   console.log(id)
-        // emit to other component ,assign variable , parameter id
-        this.$emit('delete-task', id)
-
-      }
   }
 };
 </script>
