@@ -40,6 +40,8 @@ export default {
         alert("Please add Item");
         return;
       }
+
+      //how to pass data or add to backend
       const newTask = {
         id: Math.floor(Math.random() * 100000),
         text: this.text,
@@ -48,6 +50,7 @@ export default {
       };
       
     //   console.log(newTask);
+    // property of value
      this.$emit('add-task', newTask)
       this.text = ""
       this.day = ""

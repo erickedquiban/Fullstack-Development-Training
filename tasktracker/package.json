@@ -6,13 +6,17 @@
   "author": "erick edquiban",
   "private": true,
   "scripts": {
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "backend": "json-server --watch db.json --port 5000"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
-    "quasar": "^1.0.0"
+    "json": "^11.0.0",
+    "json-server": "^0.16.3",
+    "quasar": "^1.0.0",
+    "server": "^1.0.34"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0"

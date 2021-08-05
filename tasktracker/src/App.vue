@@ -1,8 +1,11 @@
 <template>
   <div id="q-app">
     <div class="container">
-      <Header title="Task Tracker" />
+      <Header @toggle-add-task="toggleAddTask" title="Task Tracker" 
+      :showAddTask="showAddTask" />
+      <div v-if="showAddTask">
       <AddTask @add-task="addTask" />
+      </div>
       <Tasks
         @toggle-reminder="toggleReminder"
         @delete-task="deleteTask"
@@ -25,32 +28,18 @@ export default {
   },
   data() {
     return {
-      tasks: []
+      tasks: [],
+      showAddTask: false
     };
   },
-  created() {
-    this.tasks = [
-      {
-        id: 1,
-        text: "Youtube",
-        day: "monday",
-        reminder: true
-      },
-      {
-        id: 2,
-        text: "Facebook",
-        day: "tuesday",
-        reminder: true
-      },
-      {
-        id: 3,
-        text: "Anime",
-        day: "wednesday",
-        reminder: false
-      }
-    ];
+ async created() {
+    this.tasks = await this.fetchTask()
+      
   },
   methods: {
+    toggleAddTask(){
+      this.showAddTask = !this.showAddTask
+    },
     addTask(task) {
       if (confirm("Are you sure to save this task?")) {
         this.tasks = [...this.tasks, task];
@@ -71,6 +60,13 @@ export default {
             }
           : task
       );
+    },
+    async fetchTask() {
+      const res= await fetch ('http://localhost:5000/tasks')
+
+      const data  = await res.json()
+
+      return data
     }
   }
 };

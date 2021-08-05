@@ -1,7 +1,9 @@
 <template>
 <div>
     <h3>{{ title }}</h3>
-    <Button text ="Add Tsk" color="green"/>
+    <Button @btn-click="$emit('toggle-add-task')" 
+    :text ="showAddTask ? 'Close' : 'Add Task'" 
+    :color="showAddTask ? 'red': 'green' "/>
 </div>
 </template>
 
@@ -15,11 +17,10 @@ export default {
     name: 'Header',
     props: {
         title: String,
+        showAddTask: Boolean
     }
 }
-
 </script>
-
 
 <style scoped>
 
@@ -29,5 +30,4 @@ header{
     align-items: center;
     margin-bottom: 20px;
 }
-
 </style>
