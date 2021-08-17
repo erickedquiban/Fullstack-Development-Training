@@ -1,23 +1,22 @@
-
 {
-    "tasks": [
-        {
-          "id": "1",
-          "text": "Youtube",
-          "day": "monday",
-          "reminder": true
-        },
-        {
-            "id": "2",
-            "text": "Facebook",
-            "day": "monday",
-            "reminder": true
-        },
-        {
-            "id": "3",
-            "text": "Youtube",
-            "day": "monday",
-            "reminder": true
-        }
-      ]
+  "tasks": [
+    {
+      "id": "1",
+      "text": "Youtube",
+      "day": "monday",
+      "reminder": false
+    },
+    {
+      "id": "3",
+      "text": "Youtube",
+      "day": "monday",
+      "reminder": false
+    },
+    {
+      "text": "erick",
+      "day": "edquiban",
+      "reminder": true,
+      "id": "XPYXyvW"
+    }
+  ]
 }

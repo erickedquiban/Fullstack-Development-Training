@@ -1,7 +1,7 @@
 <template>
   <div id="q-app">
     <div class="container">
-      <Header @toggle-add-task="toggleAddTask" title="Task Tracker" 
+      <Header @toggle-add-task="toggleAddTask" title="TT" 
       :showAddTask="showAddTask" />
       <div v-if="showAddTask">
       <AddTask @add-task="addTask" />
@@ -32,43 +32,81 @@ export default {
       showAddTask: false
     };
   },
- async created() {
-    this.tasks = await this.fetchTask()
-      
-  },
+
   methods: {
     toggleAddTask(){
       this.showAddTask = !this.showAddTask
     },
-    addTask(task) {
-      if (confirm("Are you sure to save this task?")) {
-        this.tasks = [...this.tasks, task];
-      }
+   async addTask(task) {
+       const res = await fetch('http://localhost:5000/tasks' , {
+         method: 'POST',
+        //  post is for add and create 
+         headers:{
+           'Content-type' : 'application/json',
+         },
+         body: JSON.stringify(task),
+       })
+       const data = await res.json()
+      //  response here
+        this.tasks = [...this.tasks, data];
+        // all data from array
     },
-    deleteTask(id) {
+
+   async deleteTask(id) {
       if (confirm("Are you sure?")) {
-        this.tasks = this.tasks.filter(task => task.id !== id);
+        const res = await fetch(`http://localhost:5000/tasks/${id}`, {
+          method: 'DELETE',
+        })
+        res.status === 200 
+        ? (this.tasks = this.tasks.filter(task => 
+        task.id !== id)) 
+        : alert ('Error Deleting Task')
       }
     },
-    toggleReminder(id) {
-      // console.log(id)
-      this.tasks = this.tasks.map(task =>
-        task.id === id
-          ? {
-              ...task,
-              reminder: !task.reminder
-            }
-          : task
+
+  async toggleReminder(id) {
+      const taskToToggle = await this.fetchTask(id)
+      const uptTask = {...taskToToggle , reminder : !taskToToggle.reminder}
+
+      const res = await fetch(`http://localhost:5000/tasks/${id}`, {
+        method: 'PUT',
+        headers:{
+          'Content-type' : 'application/json'
+        },
+        body: JSON.stringify(uptTask)
+     })
+
+      const data = await res.json()
+
+      this.tasks = this.tasks.map(task = task.id === id ?
+       {...task, reminder: data.reminder } : task
       );
     },
-    async fetchTask() {
+
+    async fetchTasks() {
       const res= await fetch ('http://localhost:5000/tasks')
 
       const data  = await res.json()
 
       return data
+      // this is how call the array
+    },
+
+    async fetchTask(id) {
+      const res= await fetch (`http://localhost:5000/tasks/${id}`)
+
+      const data  = await res.json()
+
+      return data
+      // fetching specific task
     }
-  }
+  },
+
+   async created() {
+    this.tasks = await this.fetchTasks()
+    // life hook for calling entering the page
+      
+  },
 };
 </script>
 
